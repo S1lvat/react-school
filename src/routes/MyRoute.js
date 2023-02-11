@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default function MyRoute({ component: Component, isClosed, ...rest }) {
-  const isLoggedIn = true;
+  const isLoggedIn = false;
 
   if (isClosed && !isLoggedIn) {
     return (
@@ -14,7 +14,7 @@ export default function MyRoute({ component: Component, isClosed, ...rest }) {
   }
 
   // eslint-disable-next-line react/jsx-props-no-spreading
-  return <Route {...rest.exact} component={Component} />;
+  return <Route {...rest} component={Component} />;
 }
 
 MyRoute.defaultProps = {

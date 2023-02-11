@@ -28,6 +28,11 @@ button {
   color: #fff;
   border: none;
   font-weight: 700;
+  transition: all 300ms;
+}
+
+button:hover {
+  filter: brightness(70%);
 }
 
 a {
@@ -57,7 +62,7 @@ ul {
 `;
 
 export const Container = styled.section`
-  max-width: 360px;
+  max-width: 520px;
   background-color: #fff;
   margin: 30px auto;
   padding: 30px;
