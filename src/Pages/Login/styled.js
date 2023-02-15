@@ -1,15 +1,25 @@
 import styled from 'styled-components';
+import * as colors from '../../config/colors';
 
-export const Title = styled.h1`
-  background-color: aliceblue;
-  small {
-    font-size: 12pt;
-    margin-left: 15px;
-    color: #999;
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
   }
-`;
 
-export const Paragrafo = styled.p`
-  font-size: 60px;
-  margin: 15px;
+  input {
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 4px;
+    margin-top: 5px;
+
+    &:focus {
+      border: 1px solid ${colors.primaryColor};
+    }
+  }
 `;

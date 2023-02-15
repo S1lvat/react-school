@@ -1,11 +1,14 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 export default function MyRoute({ component: Component, isClosed, ...rest }) {
-  const isLoggedIn = false;
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   if (isClosed && !isLoggedIn) {
+    toast.error('Voce precisa estar logado!');
     return (
       <Redirect
         to={{ pathname: '/login', state: { prevPath: rest.location.pathname } }}
