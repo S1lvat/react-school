@@ -6,15 +6,19 @@ import { Link } from 'react-router-dom';
 import { AlunosContainer, AlunosPicture } from './styled';
 import { Container } from '../../styles/globalStyles';
 import axios from '../../services/axios';
+import Loading from '../../Components/Loading';
 
 export default function Alunos() {
   const [alunos, setAlunos] = useState([]);
+  const [isLoading, setIsloading] = useState(false);
 
   useEffect(() => {
     async function getData() {
+      setIsloading(true);
       const response = await axios.get('/alunos');
 
       setAlunos(response.data);
+      setIsloading(false);
     }
 
     getData();
@@ -22,6 +26,8 @@ export default function Alunos() {
 
   return (
     <Container>
+      <Loading isLoading={isLoading} />
+
       <h1>Alunos</h1>
 
       <AlunosContainer>

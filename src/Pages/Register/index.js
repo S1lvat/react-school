@@ -6,6 +6,7 @@ import { get } from 'lodash';
 
 import { Form } from './styled';
 import { Container } from '../../styles/globalStyles';
+import Loading from '../../Components/Loading';
 
 import axios from '../../services/axios';
 import history from '../../services/history';
@@ -14,9 +15,11 @@ export default function Register() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsloading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setIsloading(true);
     let formErrors = false;
 
     if (nome.length < 3 || nome.length > 255) {
@@ -45,16 +48,20 @@ export default function Register() {
         password,
       });
       toast.success('Voce fez seu cadastro!');
+      setIsloading(false);
       history.push('/login');
     } catch (err) {
       const errors = await get(err, 'response.data.Errors', []);
 
       errors.map((error) => toast.error(error));
+      setIsloading(false);
     }
   }
 
   return (
     <Container>
+      <Loading isLoading={isLoading} />
+
       <h1>Crie sua conta!</h1>
       <Form onSubmit={handleSubmit}>
         <label htmlFor="nome">
