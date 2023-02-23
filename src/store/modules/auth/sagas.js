@@ -12,9 +12,9 @@ function* loginRequest({ payload }) {
     const response = yield call(axios.post, '/tokens', payload);
 
     yield put(actions.loginSuccess({ ...response.data }));
-    toast.success('Usuario logado!');
+    toast.success(`Bem-vindo ${response.data.user.nome}!`);
 
-    axios.defaults.headers.Autorization = `Bearer ${response.data.token}`;
+    axios.defaults.headers.authorization = `Bearer ${response.data.token}`;
 
     history.push(payload.prevPath);
   } catch (e) {
@@ -29,10 +29,54 @@ function loginRehydrate({ payload }) {
 
   if (!token) return;
 
-  axios.defaults.headers.Autorization = `Bearer ${token}`;
+  axios.defaults.headers.authorization = `Bearer ${token}`;
+}
+
+// eslint-disable-next-line consistent-return
+function* registerRequest({ payload }) {
+  const { nome, email, password, id } = payload;
+  try {
+    if (id) {
+      yield call(axios.put, '/users/', {
+        nome,
+        email,
+        password: password || undefined,
+      });
+
+      toast.success('Dados alterados com sucesso!');
+      yield put(actions.registerUpdatedSuccess({ nome, email }));
+    } else {
+      yield call(axios.post, '/users/', {
+        nome,
+        email,
+        password,
+      });
+
+      toast.success('Conta criada com sucesso!');
+      yield put(actions.registerCreatedSuccess());
+      history.push('/login');
+    }
+  } catch (error) {
+    const errors = get(error, 'response.data.errors', []);
+    const status = get(error, 'response.status', 0);
+
+    if (errors) {
+      errors.map((err) => toast.error(err));
+    } else {
+      toast.error('Erro desconhecido!');
+    }
+
+    if (status === 401) {
+      yield put(actions.loginFailure());
+      return history.push('/login');
+    }
+
+    yield put(actions.registerFailure());
+  }
 }
 
 export default all([
   takeLatest(types.LOGIN_REQUEST, loginRequest),
+  takeLatest(types.REGISTER_REQUEST, registerRequest),
   takeLatest(types.PERSIST_REHYDRATE, loginRehydrate),
 ]);

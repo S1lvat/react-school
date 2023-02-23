@@ -15,9 +15,14 @@ export default function Alunos() {
   useEffect(() => {
     async function getData() {
       setIsloading(true);
-      const response = await axios.get('/alunos');
+      try {
+        const response = await axios.get('/alunos');
+        setAlunos(response.data);
+      } catch (error) {
+        setIsloading(false);
+        console.log(error);
+      }
 
-      setAlunos(response.data);
       setIsloading(false);
     }
 
