@@ -1,3 +1,4 @@
+import axios from '../../../services/axios';
 import * as types from '../types';
 
 const initalState = {
@@ -25,6 +26,7 @@ export default function reducer(state = { initalState }, action) {
     }
     case types.LOGIN_FAILURE: {
       const newState = { ...initalState };
+      axios.defaults.headers.authorization = '';
       return newState;
     }
     case types.REGISTER_REQUEST: {

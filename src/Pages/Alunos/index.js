@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { FaUserCircle, FaEdit, FaWindowClose } from 'react-icons/fa';
+import {
+  FaUserCircle,
+  FaEdit,
+  FaWindowClose,
+  FaExclamation,
+} from 'react-icons/fa';
 import { get } from 'lodash';
 
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import history from '../../services/history';
 import { AlunosContainer, AlunosPicture } from './styled';
 import { Container } from '../../styles/globalStyles';
 import axios from '../../services/axios';
@@ -20,7 +27,6 @@ export default function Alunos() {
         setAlunos(response.data);
       } catch (error) {
         setIsloading(false);
-        console.log(error);
       }
 
       setIsloading(false);
@@ -28,6 +34,35 @@ export default function Alunos() {
 
     getData();
   }, []);
+
+  const handleDeleteAsk = (e) => {
+    e.preventDefault();
+    const exclamation = e.currentTarget.nextSibling;
+
+    exclamation.setAttribute('display', 'block');
+    e.currentTarget.remove();
+  };
+
+  const handleDelete = async (e, id) => {
+    e.preventDefault();
+    try {
+      setIsloading(true);
+      const response = await axios.delete(`alunos/${id}`);
+      toast.success(response.data);
+      const newAlunos = await axios.get('/alunos');
+      setAlunos(newAlunos.data);
+      setIsloading(false);
+    } catch (error) {
+      const errors = get(error, 'response.data.errors', []);
+      const status = get(error, 'response.status', 0);
+      errors.map((err) => toast.error(err));
+
+      if (status === 401) {
+        history.push('/login');
+      }
+    }
+    setIsloading(false);
+  };
 
   return (
     <Container>
@@ -51,8 +86,14 @@ export default function Alunos() {
             <Link to={`aluno/${aluno.id}/edit`}>
               <FaEdit size={16} />
             </Link>
-            <Link to={`aluno/${aluno.id}/delete`}>
-              <FaWindowClose size={16} />
+
+            <Link to={`/aluno/${aluno.id}/delete`}>
+              <FaWindowClose size={16} onClick={handleDeleteAsk} />
+              <FaExclamation
+                size={16}
+                display="none"
+                onClick={(e) => handleDelete(e, aluno.id)}
+              />
             </Link>
           </div>
         ))}

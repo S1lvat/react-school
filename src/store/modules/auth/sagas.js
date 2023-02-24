@@ -43,8 +43,12 @@ function* registerRequest({ payload }) {
         password: password || undefined,
       });
 
-      toast.success('Dados alterados com sucesso!');
+      toast.success(
+        'Dados alterados com sucesso! Voce precisara logar novamente!'
+      );
       yield put(actions.registerUpdatedSuccess({ nome, email }));
+      yield put(actions.loginFailure());
+      history.push('/login');
     } else {
       yield call(axios.post, '/users/', {
         nome,
