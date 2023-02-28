@@ -10,7 +10,7 @@ import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import history from '../../services/history';
-import { AlunosContainer, AlunosPicture } from './styled';
+import { AlunosContainer, AlunosPicture, AlunosCriar } from './styled';
 import { Container } from '../../styles/globalStyles';
 import axios from '../../services/axios';
 import Loading from '../../Components/Loading';
@@ -69,6 +69,8 @@ export default function Alunos() {
       <Loading isLoading={isLoading} />
 
       <h1>Alunos</h1>
+
+      <AlunosCriar to="/aluno/">Criar novo aluno</AlunosCriar>
 
       <AlunosContainer>
         {alunos.map((aluno) => (

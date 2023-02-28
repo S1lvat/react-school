@@ -44,6 +44,11 @@ ul {
   list-style: none;
 }
 
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
 .Toastify__toast-theme--light.Toastify__toast--success .Toastify__toast-icon > svg {
   fill: ${colors.successColor}
 }

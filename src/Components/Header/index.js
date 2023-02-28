@@ -33,7 +33,7 @@ export default function Header() {
 
       {isLoggedIn ? (
         <>
-          <Link to="/" onClick={handleLogout}>
+          <Link to="/login" onClick={handleLogout}>
             <FaPowerOff size={24} />
           </Link>
           <FaCircle size={24} display="flex" color="#6bfc03" />

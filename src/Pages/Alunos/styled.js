@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const AlunosContainer = styled.div`
   margin-top: 20px;
@@ -21,4 +22,9 @@ export const AlunosPicture = styled.div`
     height: 35px;
     border-radius: 50%;
   }
+`;
+
+export const AlunosCriar = styled(Link)`
+  display: block;
+  padding: 10px 0;
 `;
