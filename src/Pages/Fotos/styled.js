@@ -1,15 +1,31 @@
 import styled from 'styled-components';
+import * as colors from '../../config/colors';
 
-export const Title = styled.h1`
-  background-color: aliceblue;
-  small {
-    font-size: 12pt;
-    margin-left: 15px;
-    color: #999;
+export const Form = styled.form`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+
+  label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 180px;
+    background-color: #ccc;
+    border-radius: 50%;
+    border: 5px dashed ${colors.primaryColor};
+    cursor: pointer;
+    overflow: hidden;
   }
-`;
 
-export const Paragrafo = styled.p`
-  font-size: 60px;
-  margin: 15px;
+  input {
+    display: none;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
